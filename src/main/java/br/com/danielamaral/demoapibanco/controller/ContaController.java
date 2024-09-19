@@ -4,7 +4,7 @@ import br.com.danielamaral.demoapibanco.dto.ContaDto;
 import br.com.danielamaral.demoapibanco.dto.TransferenciaDto;
 import br.com.danielamaral.demoapibanco.repository.ContaRepository;
 import br.com.danielamaral.demoapibanco.service.ContaService;
-import io.swagger.v3.oas.annotations.Operation;
+import br.com.danielamaral.demoapibanco.service.GeminiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,22 @@ public class ContaController {
     @Autowired
     private ContaRepository contaRepository;
     @Autowired
-    private ContaService service;
+    private ContaService contaService;
+
+    @Autowired
+    private GeminiService geminiService;
+
+    @GetMapping(value = "ia/{duvida}", produces = "application/json")
+    public ResponseEntity consultarIA(@PathVariable String duvida){
+        try{
+            String msg = geminiService.consultar(duvida);
+            return ResponseEntity.status(HttpStatus.OK).body(msg);
+        }catch (Exception ex){
+            logger.error(ex.getMessage(),ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
+    }
+
     @GetMapping(value = "/{conta}", produces = "application/json")
     public ResponseEntity consultarSaldo(@PathVariable String conta){
         try{
@@ -36,7 +51,7 @@ public class ContaController {
     public ResponseEntity transferir(@RequestBody TransferenciaDto transferenciaDto){
 
         try {
-            Double saldoAtualizado = service.transferir(transferenciaDto);
+            Double saldoAtualizado = contaService.transferir(transferenciaDto);
             return ResponseEntity.status(HttpStatus.OK).body(saldoAtualizado);
         }catch (Exception ex){
             logger.error(ex.getMessage(),ex);
@@ -48,7 +63,7 @@ public class ContaController {
     public ResponseEntity pix(@PathVariable Long chave,@PathVariable Double valor){
 
         try {
-            service.realizarPix(chave,valor);
+            contaService.realizarPix(chave,valor);
             return ResponseEntity.status(HttpStatus.OK).build();
         }catch (Exception ex){
             logger.error(ex.getMessage(),ex);
