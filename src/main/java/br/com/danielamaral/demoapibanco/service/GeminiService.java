@@ -7,13 +7,12 @@ import dev.langchain4j.model.chat.ChatLanguageModel;
 @Service
 public class GeminiService {
 
-
     public String consultar(String duvida){
 
         ChatLanguageModel model = VertexAiGeminiChatModel.builder()
-                .project("i-monolith-433517-u5")
-                .location("us-central1")
-                .modelName("gemini-1.5-flash-001")
+                .project(System.getenv("PROJECT_ID"))
+                .location(System.getenv("LOCATION"))
+                .modelName(System.getenv("MODEL"))
                 .build();
 
         return model.generate(duvida);
