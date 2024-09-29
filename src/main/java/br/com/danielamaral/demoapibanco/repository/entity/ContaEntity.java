@@ -14,10 +14,10 @@ public class ContaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private String conta;
+    private String numero;
     private Double saldo;
 
     public ContaDto toDto(){
-        return new ContaDto(this.id, this.conta, this.saldo);
+        return new ContaDto(this.id, this.numero, this.saldo);
     }
 }

@@ -12,7 +12,6 @@ public class OpenAPIConfiguration {
     @Value("${spring.application.name}")
     private String appName;
 
-
     @Bean
     public OpenAPI openApi() {
         return new OpenAPI()

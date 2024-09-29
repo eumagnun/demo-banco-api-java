@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(name = "Conta")
+@Schema(name = "Conta", description = "Conta Bancária")
 public class ContaDto {
 
     private long id;
-    private String conta;
+    @Schema(name = "numero",description = "Número da conta")
+    private String numero;
+    @Schema(name = "saldo",description = "Saldo da conta")
     private Double saldo;
 }

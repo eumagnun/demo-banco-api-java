@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(name = "Transferencia")
 public class TransferenciaDto {
-
+    @Schema(name = "contaOrigem", description = "Conta de origem")
     private String contaOrigem;
+    @Schema(name = "contaDestino", description = "Conta de destino")
     private String contaDestino;
+    @Schema(name ="valor", description = "Valor a ser transferido")
     private Double valor;
 }
